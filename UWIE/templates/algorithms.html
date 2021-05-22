@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+  <title>ALGORITHMS</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    *,
+    *:after,
+    *:before {
+      box-sizing: border-box;
+    }
+
+    :root {
+      font-size: 16px;
+    }
+
+    body {
+      background: #1E1F25;
+      font-family: "Inter", sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      font-size: 1.25rem;
+      color: #FFF;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    body>div {
+      width: 90%;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 5rem;
+      margin-bottom: 5rem;
+    }
+
+    details div {
+      border-left: 2px solid #fff;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      padding: 2px;
+    }
+
+    details div>*+* {
+      margin-top: 1.5em;
+    }
+
+    details+details {
+      margin-top: .5rem;
+    }
+
+    summary {
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary {
+      border: 2px solid #fff;
+      border-radius: 10px;
+      padding: .75em 2em;
+      cursor: pointer;
+      position: relative;
+      padding-left: calc(1.75rem + .75rem + .75rem);
+      font-weight: bold;
+    }
+
+    summary:before {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: .75rem;
+      content: "↓";
+      width: 1.75rem;
+      height: 1.75rem;
+      background-color: #000;
+      color: #FFF;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    details[open] summary {
+      background-color: #03e9f4;
+    }
+
+    details[open] summary:before {
+      content: "↑";
+    }
+
+    summary:hover {
+      background-color: #03e9f4;
+      color: #000;
+    }
+
+    a {
+      color: inherit;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 1px 0 0;
+    }
+
+    a:hover {
+      box-shadow: 0 3px 0 0;
+    }
+
+    code ,pre{
+      font-family: monospace;
+      font-size: 15px;
+      font-weight: 200;
+      margin: 0;
+      padding: 0;
+      line-height: normal;
+    }
+    .head1 {
+      margin-top: 25px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 30px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+      padding-left: 10px;
+      padding-right: 10px;
+      letter-spacing: 2px;
+      position: relative;
+    }
+    .home {
+      width: fit-content;
+      height: fit-content;
+      margin-top: 5px;
+      margin-left: 25px;
+      font-size: 25px;
+      align-items: center;
+      position: absolute;
+    }
+
+    .home a {
+      width: fit-content;
+      padding: 3px;
+      text-decoration: none;
+      color: #fff;
+      margin: 50% 0;
+      background: none;
+      box-shadow: none;
+    }
+
+    .home a:hover {
+      background: #03e9f4;
+      color: #000;
+      font-weight: bold;
+      border-radius: 15px;
+      box-shadow: 0 0 3px #03e9f4,
+        0 0 55px #03e9f4,
+        0 0 40px #03e9f4,
+        0 0 80px #03e9f4;
+    }
+  </style>
+</head>
+<div class="home">
+  <a href="/"><i class="fas fa-home"></i></a>
+</div>
+<div class="head1">
+    ALGORITHMS
+  </div>
+<body>
+  
+  <div>
+    <details>
+      <summary>
+        CLAHE
+      </summary>
+      <div>
+        <pre><code>
+          1. DIVIDE THE INPUT IMAGE INTO NxN MATRIX OF SUB-IMAGES
+
+          2. FOR EACH SUB IMAGE DO:
+            2.1 COMPUTE THE HISTOGRAM
+            2.2 COMPUTE THE HIGH PEAK VALUE OF SUB-IMAGE
+            2.3 CALCULATE THE NOMINAL CLIPPING LEVEL 0 TO HIGH
+            2.4 FOR EACH GRAY LEVEL IN HISTOGRAM DO:
+              A) IF THE HISTOGRAM BIN GREATER THAN CLIP LEVEL,CLIP THE HISTOGRAM
+                 TO NOMINAL CLIP LEVEL
+              B) COLLECT THE NUBER OF PIXELS INT HE IMAGE THAT CAUSED THE HISTOGRAM
+                 TO EXCESS CLIP LEVEL
+	          2.5 DISTRIBUTE TE CLIPPED PIXEL UNIFORMELY IN ALL HISTOGRAM BINS 
+                TO OBTAIN NORMALIZED HISTOGRAM
+	          2.6 EQUALIZE THE HISTOGRAM TO OBTAIN CLIPPED HISTOGRAM EQUALIZE FOR 
+                SUB IMAGE
+
+          3. ADJUST THE BORDER PIXELS BY BILINEAR INTERPOLATIION
+            (DISTANCE WEIGHTED AVERAGE OF FOUR NEAREST PIXEL VALUES)
+
+          4. RETURN THE CLAHE IMAGE
+        </code>
+      </pre>
+      </div>
+    </details>
+    <details>
+      <summary>
+        RAYLEIGH
+      </summary>
+      <div>
+        <pre><code>
+          1.ALGORITHM RD
+
+          2.GET IMAGE FILE
+
+          3.GET height and width of the image
+
+          4.CALL RGB_EQUALISATION method with arguments height,width and the image itself
+            a. Read the image as an Numpy array.
+            b. Split the image into 3 channels(r,g,b(red,green,blue)).
+            c. Find the AVERAGE of each channels.
+            d. Convert those AVERAGE into numpy array.
+            e. Find the MAXIMUM value and the MINIMUM value in the array.
+            f. Find the MEDIAN among the array
+            g. Set A=MEDIAN/MINIMUM
+            h. Set B=MEDIAN/MAX
+            i. IF MINIMUM VALUE EQUALS AVERAGE of each channel i.
+              Multiply A with each channels
+            j. IF MAXIMUM VALUE EQUALS AVERAGE of each channel i. Multiply B with each    	  	   channels 
+            k. Create new Numpy array 
+            l. Append those new r,g,b values m.Return it 
+
+          5. CALL STRECHING method with argument new array 
+            a. Get the maximum and minimum channel using the height and width 
+            b. For each pixel of the image[i,j,k] do i. 
+            (img[i,j,k] - Min_channel) * (255 - 0) / 	(Max_channel - Min_channel)+ 0 c.
+            Return the image 
+
+          6. CALL RAYLEIGH_STRECHING method with arguments the new image,height,width 
+            a. Find the upper and lower histogram stretching of each color channels r,g,b. 
+            b. Create an Numpy array of size of image,and append the lower histogram 
+              stretching values of each channels 
+            c. Create an Numpy array of size of image,and append the upper histogram
+              stretching values of each channels 
+            d. Return both arrays
+
+          7. Sum these arrays and divide it by two and store it in sceneradiance 
+
+          8. Call HSV_STRECHING and pass sceneradiance 
+            a. Read the height and width of this array 
+            b. Convert it into HSV using rgb2hsv package from skimage library 
+            c. Do global_streching and pass hsvimage,its height and width and return it 
+            d. Convert it back into rgb using hsv2rgb 
+            e. Return the image 
+            
+          9. Call SCENERADIANCERGBRD method and pass this image 
+            a. Clip the array 
+            b. Change the format into int 
+            c. Return the image 
+            
+          10. Output the image
+        </code></pre>
+      </div>
+    </details>
+    <details>
+      <summary>
+        DCP
+      </summary>
+      <div>
+        <pre><code>
+          1.ALGORITHM DCP
+
+          2. INPUT image file.
+
+          3. GET MINIMUM VALUED CHANNEL INTO ARRAY imgGrey
+                IF IMAGE IS COLOURED AND TWO DIMENSIONAL THEN
+                    ACCEPT THE IMAGE
+                    GET THE GRAY SCALE IMAGE
+                ELSE
+                    DISPALY "bad image, no color found"
+                    DISCARD THE IMAGE and STOP ALGORITHM
+          4. GET DARK CHANNEL INTO VARIABLE imgDark from the greyscale image
+                IF IMAGE IS IN GREYSCALE
+                    ACCEPT THE IMAGE
+                    GET THE DARK CHANNEL IMAGE
+                ELSE
+                    DISPLAY "bad image shape, input image must be two demensions" 
+                    DISCARD THE IMAGE and STOP ALGORITHM
+                    
+          5. CALCULATE ATMOSPHERIC LIGHT 
+                GET SIZE, HEIGHT, WIDTH OF DARKCHANNEL
+                SET atmosphericLight  as 0
+                CALCULATE GREATEST INTENSITY VALUE FOR EACH CHANNEL
+              RETURN atmosphericLight
+          6. CALCULATE TRANSMISSION
+              CONVERT imgDark TO FLOAT
+              transmission = 1 - omega * imgDark / atomsphericLight
+              FILTER transmission WITH GUIDED FILTER
+              CONVERT IMAGE TO FLOAT
+              SET ARRAY sceneRadiance AS ZERO
+      
+          7.CALCULATE SCENE RADIANCE
+              sceneRadiance= (img - atomsphericLight) / transmission + atomsphericLight
+              CONVERT sceneRadiance TO INTEGER TYPE
+      
+          8. RETURN Image
+        </code></pre>
+      </div>
+    </details>
+    <details>
+      <summary>
+        MIP
+      </summary>
+      <div>
+        <pre><code>
+          1.ALGORITHM MIP
+
+          2. INPUT image file.
+
+          3.CALCULATE DEPTH MAP
+            GET MAXIMUM INTENSITY VALUE OF BLUE, GREEN CHANNEL
+            GET MAXIMUM INTENSITY VALUE OF RED CHANNEL
+            CALCULATE THE LARGEST DIFFERENCE OF MAXIMUM INTENSITY
+              largestDiff=REDchannel INTENSITY– {BLUE,GREEN}channel INTENSITY
+
+          4.CALCULATE TRANSMISSION
+            transmission = largestDiff + (1 – max_of(largestDiff))
+            5.CALCULATE REFINED TRANSMISSION
+            REFINE transmission WITH GUIDED FILTER
+          
+          6.CALCULATE ATMOSPHERIC LIGHT
+            atmosphericLight IS PIXEL WITH HIGHEST INTENSITY VALUE IN
+            REFINED TRANSMISSION
+          
+          7.CALCULATE SCENE RADIANCE
+            sceneRadiance= (img - AtomsphericLight) / transmission  + AtomsphericLight
+          
+          8.RETURN sceneRadiance
+        </code></pre>
+      </div>
+    </details>
+  </div>
+</body>
+
+</html>

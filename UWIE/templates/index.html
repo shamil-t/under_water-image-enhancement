@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<title>UWIER</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+		}
+
+		body {
+			background: #1E1F25;
+		}
+
+		.nav ul {
+			display: flex;
+			width: 100%;
+			height: 12vh;
+			margin: auto;
+			max-width: 1000px;
+			justify-content: space-between;
+			text-align: center;
+		}
+
+		.nav li {
+			padding: 1rem 2rem 1.15rem;
+			text-transform: uppercase;
+			cursor: pointer;
+			color: #ebebeb;
+			min-width: 80px;
+			margin: auto;
+			font-family: 'Poppins', sans-serif;
+			font-style: bold;
+		}
+
+		.nav li:hover {
+			background: #03e9f4;
+			color: #000;
+			font-weight: bold;
+			border-radius: 15px;
+			box-shadow: 0 0 3px #03e9f4,
+				0 0 15px #03e9f4,
+				0 0 40px #03e9f4,
+				0 0 80px #03e9f4;
+		}
+
+		.nav li:active {
+			transform: translateY(4px);
+		}
+
+		@keyframes spring {
+			15% {
+				-webkit-transform-origin: center center;
+				-webkit-transform: scale(1.2, 1.1);
+			}
+
+			40% {
+				-webkit-transform-origin: center center;
+				-webkit-transform: scale(0.95, 0.95);
+			}
+
+			75% {
+				-webkit-transform-origin: center center;
+				-webkit-transform: scale(1.05, 1);
+			}
+
+			100% {
+				-webkit-transform-origin: center center;
+				-webkit-transform: scale(1, 1);
+			}
+		}
+
+		a {
+			text-decoration: none;
+			color: inherit;
+		}
+
+		#head1 {
+			margin-top: 50px;
+			font-family: 'Raleway', sans-serif;
+			font-size: 40px;
+			font-weight: bold;
+			color: #fff;
+			text-align: center;
+			padding-left: 10px;
+			padding-right: 10px;
+			letter-spacing: 2px;
+		}
+
+		#methods {
+			margin-top: 50px;
+			margin-left: 30px;
+			margin-right: 30px;
+			display: flex;
+			justify-content: space-between;
+			padding-left: 35px;
+			padding-right: 35px;
+			color: #fff;
+			font-family: 'Poppins';
+			font-size: 19px;
+		}
+
+		#enhance,
+		#restore,
+		#classify {
+			width: 250px;
+			display: block;
+		}
+
+		.item-list {
+			margin-left: 30px;
+			margin-top: 30px;
+		}
+
+		.item-list li {
+			padding: 10px;
+		}
+
+		.item-list li a {
+			font-size: 18px;
+			font-weight: bold;
+			font-family: monospace;
+		}
+
+		.item-list li:hover {
+			font-weight: bold;
+			border-radius: 10px;
+			box-shadow: 0 0 3px #03e9f4,
+				0 0 10px #03e9f4,
+				0 0 10px #03e9f4,
+				0 0 10px #03e9f4;
+		}
+	</style>
+</head>
+
+
+<body>
+	<div class="nav">
+		<ul>
+			<li><a href="#">HOME</a></li>
+			<li><a href="algorithms">ALGORITHMS</a></li>
+			<li><a href="paper">PAPER</a></li>
+			<li><a href="about-us">ABOUT US</a></li>
+		</ul>
+	</div>
+
+	<div id="head1">
+		UNDER WATER IMAGE ENHANCEMENT AND RESTORATION : WITH REEF CLASSIFICATION
+	</div>
+	<div id="methods">
+		<div id="enhance">
+			Enhancement Methods :
+			<div class="item-list">
+				<ul>
+					<li><a href="clahe">1. CLAHE</a></li>
+					<li><a href="rayleigh">2. Rayleigh</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="restore">
+			Restoration Methods :
+			<div class="item-list">
+				<ul>
+					<li><a href="dcp">1. DCP</a></li>
+					<li><a href="mip">2. MIP</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="classify">
+			Reef Classification :
+			<div class="item-list">
+				<ul>
+					<li><a href="classify">CLASSIFY</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	function playV() {
+		document.getElementById('video').style.visibility = "visible"
+		document.getElementById('video').style.position = 'fixed'
+		document.querySelector('video').play()
+	}
+
+	jQuery(document).ready(function ($) {
+		$(window).on('load', function () {
+			setTimeout(function () {
+				$('#preloader').fadeOut('slow', function () {});
+			}, 2000);
+
+		});
+	});
+	console.log("her i am ")
+	setTimeout(playV(), 50000);
+</script>
+
+</html>

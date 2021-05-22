@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+{% csrf_token %} 
+{% load static %}
+<html>
+<head>
+	<title>Auto Enhance & Restore</title>
+	
+</head>
+<style type="text/css">
+	body{
+		background-image: url('static/bg2.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		margin: 0;
+        padding: 0;
+	}
+	#head1{
+    	background-color: #020c21;
+    	width: 100%;
+    	display: inline-block;
+    	margin: 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    #head1 h1{
+    	text-align: center;
+    	font-size: 46px;
+    	color: #1dbbf0;
+    	font-family: monospace;
+    	margin: 0;
+        padding: 0;
+        position: initial;
+    }
+    #image_block{
+    	display: inline-block;
+    	width: 100%;
+    	height: 100%
+    }
+    #img1{
+    	position: relative;
+    	width: 30%;
+    	height: 450px;
+    	border-radius: 15px;
+    	border: 2px solid #fc2003;
+    }
+
+    .button{
+    	  background-color: #4CAF50;
+		  border: none;
+		  color: white;
+		  padding: 16px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  transition-duration: 0.4s;
+		  cursor: pointer;
+		  font-weight: bold;
+		  outline: none;
+    }
+    .butt1 {
+    	float: right;
+	  background-color: white; 
+	  color: blue; 
+	  border: 2px solid #e00744;
+	  border-radius: 15px;
+	}
+	.butt1:hover {
+	  background-color: #e00744;
+	  color: white;
+	}
+    #img2{
+    	float: left;
+    	width: 30%;
+    	height: 450px;
+    	margin-right: 35px;
+    	margin-top: 10px;
+    	border-radius: 15px;
+    	border: 2px solid #aab302;
+    }
+    #form1{
+    	display: block;
+    	color: #ff6789;
+    	padding:0;
+    	margin-left: 50px;
+    	width: 350px;
+    }
+    #file1{
+    	display: none;
+    }
+    .select{
+    	float: left;
+		  background-color: #4CAF50;
+		  border: none;
+		  color: white;
+		  padding: 16px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  transition-duration: 0.4s;
+		  cursor: pointer;
+		  font-weight: bold;
+		  outline: none;
+		  background-color: white; 
+	  	  color: blue; 
+	  	  border: 2px solid #fc2003;
+	  	  border-radius: 15px;
+    }
+    .select:hover {
+    	background-color: #fc2003;
+	    color: white;
+    }
+    #img1{
+		background-repeat: no-repeat;
+    	background-size: 100% 100%;
+    }
+    #img2{
+    	position: relative;
+    	background-repeat: no-repeat;
+    	background-size: 100% 100%;
+    }
+    #img3{
+    	position: relative;
+    	float: right;
+    	width: 30%;
+    	height: 450px;
+    	margin-right: 35px;
+    	margin-top: 10px;
+    	border-radius: 15px;
+    	border: 2px solid #ff9899;
+    	background-repeat: no-repeat;
+    	background-size: 100% 100%;
+    }
+    #img4{
+    	position: relative;
+    	float: right;
+    	width: 30%;
+    	height: 450px;
+    	margin-right: 35px;
+    	margin-top: 10px;
+    	border-radius: 15px;
+    	border: 2px solid #fc03c2;
+    	background-repeat: no-repeat;
+    	background-size: 100% 100%;
+    }
+    #img5{
+    	position: relative;
+    	float: left;
+    	width: 30%;
+    	height: 450px;
+    	margin-right: 35px;
+    	margin-top: 10px;
+    	border-radius: 15px;
+    	border: 2px solid #fc0339;
+    	background-repeat: no-repeat;
+    	background-size: 100% 100%;
+    }
+    #img6{
+    	position: relative;
+    	float: right;
+    	width: 30%;
+    	height: 450px;
+    	margin-right: 35px;
+    	margin-top: 10px;
+    	border-radius: 15px;
+    	border: 2px solid #fc0339;
+    	background-repeat: no-repeat;
+    	background-size: 100% 100%;
+    }
+    #img7{
+    	position: relative;
+    	float: right;
+    	width: 30%;
+    	height: 450px;
+    	margin-right: 35px;
+    	margin-top: 10px;
+    	border-radius: 15px;
+    	border: 2px solid #fc0339;
+    	background-repeat: no-repeat;
+    	background-size: 100% 100%;
+    }
+    #subtitle{
+    	position: absolute;                  
+        bottom:0;
+        left: 100px;
+        background-color: #99ba03;
+        margin: auto;
+        width: 50%;
+        color: white;
+        font-family: monospace;
+        font-size: 20px;
+    }
+</style>
+<body onload="load()">
+	<div id="head1">
+	  	<center>
+	  		<h1> Enhance & Restore </h1>
+	  	</center>	
+	</div>
+	<div id="image_block">
+		<center>
+
+			<div id="img1">
+				<div id="subtitle"> Normal </div>
+			</div>
+			<form id="form1" method="post" action="{% url "autogetimage" %}" enctype="multipart/form-data">
+					{% csrf_token %} 
+					<input  type="file" id="file1" name="image" onchange="preview_image(event)">
+					<input  class="select"  type="button" id="file2" value="Select Image">
+					<div id="buttons">
+						<button name="" type="submit" class="button butt1">Enhance</button>
+					</div>
+				</form>
+			<div id="img2">
+				<div id="subtitle"> RAYLEIGH </div>
+			</div>
+			<div id="img3">
+				<div id="subtitle"> CLAHE </div>
+			</div>
+			<div id="img4">
+				<div id="subtitle"> DCP </div>
+			</div>
+			<div id="img5">
+				<div id="subtitle"> MIP </div>
+			</div>
+			<div id="img6">
+				<div id="subtitle"> DCP_TM </div>
+			</div>
+			<div id="img7" onload="load()">
+				<div id="subtitle"> MIP_TM </div>
+			</div>
+		</center>
+	</div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+	document.getElementById('file2').onclick = function() {
+    	document.getElementById('file1').click();
+	};
+	function preview_image(event){
+	    var reader = new FileReader();
+	    reader.onload = function(){
+	        var output = document.getElementById('img1');
+	        output.style.backgroundImage = "url('" + reader.result + "')";
+	    }
+	    reader.readAsDataURL(event.target.files[0]);
+	}
+	function load(){
+		var output1 = document.getElementById('img1');
+	    output1.style.backgroundImage = "url('static/Input/{{ img1 }}')";
+	    var output2 = document.getElementById('img2');
+	    output2.style.backgroundImage = "url('static/Input/{{ img2 }}')";
+	    var output3 = document.getElementById('img3');
+	    output3.style.backgroundImage = "url('static/Input/{{ img3 }}')";
+	    var output4 = document.getElementById('img4');
+	    output4.style.backgroundImage = "url('static/Input/{{ img4 }}')";
+	    var output5 = document.getElementById('img5');
+	    output5.style.backgroundImage = "url('static/Input/{{ img5 }}')";
+	    var output6 = document.getElementById('img6');
+	    output6.style.backgroundImage = "url('static/Input/{{ img6 }}')";
+	    var output7 = document.getElementById('img7');
+	    output7.style.backgroundImage = "url('static/Input/{{ img7 }}')";
+	}
+</script>
