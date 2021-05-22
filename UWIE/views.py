@@ -146,9 +146,9 @@ def enhanceImageRAY(folder):
     sceneRadiance = RGB_equalisation(img, height, width)
     if not os.path.exists(folder+"/Output/RAY/"):
         os.makedirs(folder+"/Output/RAY/")
-    else:
-        cv2.imwrite(folder + '/Output/RAY/' + 'RAY_RGB.jpg', sceneRadiance)
+    cv2.imwrite(folder + '/Output/RAY/' + 'RAY_RGB.jpg', sceneRadiance)
     sceneRadiance = stretching(sceneRadiance)
+
     cv2.imwrite(folder + '/Output/RAY/' +
                 'RAY_stretch.jpg', sceneRadiance)
 
