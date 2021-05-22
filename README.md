@@ -14,15 +14,17 @@
 
 ### Environment Setup
  
-- python 3.8 64bit
+- python 3.8.6 64bit
 - install dependencies `$ pip install -r requirements.txt`
 - download models from  [here](https://drive.google.com/drive/folders/1df0bN6jUbQLoXuNAqYPLboQz1xITMFwm?usp=sharing "link title"),place it in models folder`/UWIE/CLASSIFY/models/`
 
 ### Dataset
 
-[Download DataSet from here](http://vision.ucsd.edu/)
+[Download DataSet from here](http://vision.ucsd.edu/~beijbom/moorea_labeled_corals/patches/)
 
 
 ## 🅷🅾🆆🆆 🆃🅾 🆁🆄🅽
 
 `$ py manage.pr runserver`
+
+Demo project hosted on heroku [link](https://under-water-image-enhancement.herokuapp.com/)
