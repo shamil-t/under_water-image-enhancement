@@ -17,9 +17,14 @@ from .RAY.color_equalisation import RGB_equalisation
 
 from .CLAHE.sceneRadianceCLAHE import RecoverCLAHE
 
+from .RGHS.LabStretching import LABStretching
+from .RGHS.color_equalisation import RGB_equalisation_RGHS
+from .RGHS.global_stretching_RGB import stretching
+from .RGHS.relativeglobalhistogramstretching import RelativeGHstretching
+
 from matplotlib import pyplot as plt
 from django.shortcuts import render
-from .models import InputCLAHE, InputRAY, InputMIP, InputDCP, InputClassify
+from .models import InputCLAHE, InputRAY, InputMIP, InputDCP, InputClassify, InputRGHS
 
 import cv2
 import shutil
@@ -55,6 +60,9 @@ def mip(request):
 
 def dcp(request):
     return render(request, 'dcp.html', {'img1': "static/ip_img.jpg", 'v': "hidden", 'in': "visible"})
+
+def rghs(request):
+    return render(request, 'rghs.html', {'img1': "static/ip_img.jpg", 'v': "hidden", 'in': "visible"})
 
 
 def classify(request):
@@ -289,8 +297,50 @@ def restoreMIP(folder):
     cv2.imwrite(folder + '/Output/MIP/' + 'MIP_rtra.jpg', np.uint8(Rtr * 255))
     cv2.imwrite(folder + '/Output/MIP/' + 'MIP.jpg', sceneRadiance)
 
+def get_image_rghs(request):
+    if not os.path.exists("UWIE/static/Input/RGHS/"):
+        os.makedirs("UWIE/static/Input/RGHS/")
+
+    shutil.rmtree("UWIE/static/Input/RGHS/")
+
+    if request.method == "POST":
+        in_img = request.FILES['image']
+        in_img.name = "input.jpg"
+        input = InputRGHS(img=in_img)
+        input.save()
+        enhanceRGHS("UWIE/static")
+        img1 = "static/Input/RGHS/input.jpg"
+        img2 = "RGHS.jpg"
+    return render(request,'rghs.html',{'img1': img1, 'img2': img2,'R':"RGHS_RGB.jpg",'S':"RGHS_stretch.jpg",'in': 'none'})
+
+def enhanceRGHS(folder):
+    img = cv2.imread(folder + '/Input/RGHS/input.jpg')
+
+    if not os.path.exists(folder+"/Output/RGHS/"):
+        os.makedirs(folder+"/Output/RGHS/")
+    
+    height = len(img)
+        
+    width = len(img[0])
+
+    sceneRadiance = img
+
+    sceneRadiance = RGB_equalisation_RGHS(img)
+    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS_RGB.jpg',sceneRadiance)
+    
+    # sceneRadiance1 = RelativeGHstretching(sceneRadiance, height, width)
+    # cv2.imwrite(folder+'/Output/RGHS/'+'RGHS_GH.jpg',sceneRadiance1)
+
+    sceneRadiance = stretching(sceneRadiance)
+    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS_stretch.jpg',sceneRadiance)
+
+    sceneRadiance = LABStretching(sceneRadiance)
+
+    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS.jpg',sceneRadiance)
+
 def classifyimage(request):
     folder = "UWIE/static/Input/CLASSIFY/"
+    
     if not os.path.exists(folder):
         os.makedirs(folder)
 
@@ -329,5 +379,6 @@ def classifyimage(request):
         elif np.argmax(rr) == 2:
             ans = "T"
         print("prediction", ans)
+
     img1 = "static/Input/CLASSIFY/input.jpg"
     return render(request, 'classify.html', {'img1':img1,'r': ans})
