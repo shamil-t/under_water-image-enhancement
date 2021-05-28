@@ -26,7 +26,7 @@ MIP,RGHS,ULAP methods are used in this project.
 
 - python 3.8.6 64bit
 - install dependencies `$ pip install -r requirements.txt`
-- download models from [here]( "link title"), place it in models folder`/UWIE/CLASSIFY/models/`
+- download models from [here](https://drive.google.com/drive/folders/1euqJMjlMuDJpLOWRTrMhzEG_RH62cdiw?usp=sharing "link title"), place it in models folder`/UWIE/CLASSIFY/models/`
 
 ### Dataset
 
