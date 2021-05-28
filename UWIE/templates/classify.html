@@ -118,10 +118,9 @@
 
     .lds-facebook {
       display: inline-block;
-      position: relative;
-      width: 80px;
-      height: 80px;
-      margin: 20% 45%;
+      width: fit-content;
+      height: fit-content;
+      margin: 20% 25%;
     }
 
     .lds-facebook div {
@@ -167,15 +166,25 @@
     }
 
     .load {
-      background: #1E1F25;
-      margin: 0px;
+      margin: 20% 65%;
       padding: 0px;
       z-index: 100;
-      width: 100%;
-      height: 100%;
+      width: fit-content;
+      height: fit-content;
       position: absolute;
-      visibility: hidden;
+      display: none;
     }
+
+    .prg_title{
+      margin-top: 40px;
+      margin-left: -40px;
+      width: 180px;
+      height: fit-content;
+			font-family: 'Raleway',sans-serif;
+			letter-spacing: 1px;
+			text-align: center;
+			font-weight: bold;
+		}
 
     .home {
       width: fit-content;
@@ -264,12 +273,15 @@
     }
   </style>
 </head>
-<div class="load">
+<div id="load" class="load">
   <div class="lds-facebook">
     <div></div>
     <div></div>
     <div></div>
     <div></div>
+  </div>
+  <div class="prg_title">
+    Predicting ....!
   </div>
 </div>
 <div class="home">
@@ -370,11 +382,15 @@
   };
 
   function get_image(event) {
+    document.getElementById('load').style.display='block';
     var reader = new FileReader();
     reader.onload = function () {
       var output = document.getElementById('input_img');
       output.src = reader.result;
     }
+    setTimeout(function () {
+        document.getElementById('load').style.display='none';
+    }, 5000);
     reader.readAsDataURL(event.target.files[0]);
     document.getElementById('submit').click()
   }

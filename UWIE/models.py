@@ -27,6 +27,11 @@ class InputRGHS(models.Model):
 	def __str__(self):
 		return self.img
 
+class InputULAP(models.Model):
+	img = models.ImageField(upload_to = "UWIE/static/Input/ULAP/")
+	def __str__(self):
+		return self.img
+
 class InputClassify(models.Model):
 	img = models.ImageField(upload_to = "UWIE/static/Input/CLASSIFY/")
 	def __str__(self):

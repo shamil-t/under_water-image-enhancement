@@ -20,11 +20,20 @@ from .CLAHE.sceneRadianceCLAHE import RecoverCLAHE
 from .RGHS.LabStretching import LABStretching
 from .RGHS.color_equalisation import RGB_equalisation_RGHS
 from .RGHS.global_stretching_RGB import stretching
-from .RGHS.relativeglobalhistogramstretching import RelativeGHstretching
+
+from .ULAP.GuidedFilter import GuidedFilter
+from .ULAP.backgroundLight import BLEstimation
+from .ULAP.depthMapEstimation import depthMap
+from .ULAP.depthMin import minDepth
+from .ULAP.getRGBTransmission import getRGBTransmissionESt
+from .ULAP.global_Stretching import global_stretching
+from .ULAP.refinedTransmissionMap import refinedtransmissionMap
+
+from .ULAP.sceneRadiance import sceneRadianceRGB
 
 from matplotlib import pyplot as plt
 from django.shortcuts import render
-from .models import InputCLAHE, InputRAY, InputMIP, InputDCP, InputClassify, InputRGHS
+from .models import InputCLAHE, InputRAY, InputMIP, InputDCP, InputClassify, InputRGHS, InputULAP
 
 import cv2
 import shutil
@@ -61,18 +70,26 @@ def mip(request):
 def dcp(request):
     return render(request, 'dcp.html', {'img1': "static/ip_img.jpg", 'v': "hidden", 'in': "visible"})
 
+
 def rghs(request):
     return render(request, 'rghs.html', {'img1': "static/ip_img.jpg", 'v': "hidden", 'in': "visible"})
+
+
+def ulap(request):
+    return render(request, 'ulap.html', {'img1': "static/ip_img.jpg", 'v': "hidden", 'in': "visible"})
 
 
 def classify(request):
     return render(request, 'classify.html', {'img1': "static/ip_img.jpg"})
 
+
 def paper(request):
     return render(request, 'paper.html')
 
+
 def algorithm(request):
     return render(request, 'algorithms.html')
+
 
 def about(request):
     return render(request, 'about.html')
@@ -95,6 +112,7 @@ def get_image(request):
 
     return render(request, 'clahe.html', {'img1': img1, 'img2': img2, 'hist_in': hist_in,
                                           'hist_out': hist_out, 'v': 'block', 'in': "none"})
+
 
 def enhanceImageCLAHE(folder):
     np.seterr(over='ignore')
@@ -125,6 +143,7 @@ def enhanceImageCLAHE(folder):
         # plt.hist(input_img.ravel(),256,[0,256]);
         # plt.hist(output_img.ravel(),256,[0,256]);
 
+
 def get_image_ray(request):
     print('get_imageray')
 
@@ -146,6 +165,7 @@ def get_image_ray(request):
         HSV_str = "RAY_HSV.jpg"
     return render(request, 'rayleigh.html', {'img1': img1, 'img2': img2, 'RGB': RGB_equ,
                                              'STR': stretch, 'Rstr': R_stretch, 'HSV': HSV_str, 'in': "none"})
+
 
 def enhanceImageRAY(folder):
     img = cv2.imread(folder + '/Input/RAY/input.jpg')
@@ -175,6 +195,7 @@ def enhanceImageRAY(folder):
     sceneRadiance = sceneRadianceRGB(sceneRadiance)
     cv2.imwrite(folder + '/Output/RAY/' + 'RAY.jpg', sceneRadiance)
 
+
 def get_image_dcp(request):
     print('get_image_dcp')
 
@@ -193,6 +214,7 @@ def get_image_dcp(request):
         img2 = "DCP.jpg"
     return render(request, 'dcp.html', {'img1': img1, 'img2': img2, 'G': "Gray.jpg",
                                         'D': "Dark.jpg", 'T': "DCP_TM.jpg", 'TRA': "TRA.jpg", 'in': 'none'})
+
 
 def restoreDCP(folder):
 
@@ -247,6 +269,7 @@ def restoreDCP(folder):
                 np.uint8(transmission * 255))
     cv2.imwrite(folder + '/Output/DCP/' + 'DCP.jpg', sceneRadiance)
 
+
 def get_image_mip(request):
     if not os.path.exists("UWIE/static/Input/MIP/"):
         os.makedirs("UWIE/static/Input/MIP/")
@@ -263,6 +286,7 @@ def get_image_mip(request):
         img2 = "MIP.jpg"
     return render(request, 'mip.html', {'img1': img1, 'img2': img2, 'D': "MIP_diff.jpg",
                                         'TR': "MIP_tr.jpg", 'RT': "MIP_rtra.jpg", 'TM': "MIP_TM.jpg", 'in': 'none'})
+
 
 def restoreMIP(folder):
     img = cv2.imread(folder + '/Input/MIP/input.jpg')
@@ -297,6 +321,7 @@ def restoreMIP(folder):
     cv2.imwrite(folder + '/Output/MIP/' + 'MIP_rtra.jpg', np.uint8(Rtr * 255))
     cv2.imwrite(folder + '/Output/MIP/' + 'MIP.jpg', sceneRadiance)
 
+
 def get_image_rghs(request):
     if not os.path.exists("UWIE/static/Input/RGHS/"):
         os.makedirs("UWIE/static/Input/RGHS/")
@@ -311,36 +336,92 @@ def get_image_rghs(request):
         enhanceRGHS("UWIE/static")
         img1 = "static/Input/RGHS/input.jpg"
         img2 = "RGHS.jpg"
-    return render(request,'rghs.html',{'img1': img1, 'img2': img2,'R':"RGHS_RGB.jpg",'S':"RGHS_stretch.jpg",'in': 'none'})
+    return render(request, 'rghs.html', {'img1': img1, 'img2': img2, 'R': "RGHS_RGB.jpg", 'S': "RGHS_stretch.jpg", 'in': 'none'})
+
 
 def enhanceRGHS(folder):
     img = cv2.imread(folder + '/Input/RGHS/input.jpg')
 
     if not os.path.exists(folder+"/Output/RGHS/"):
         os.makedirs(folder+"/Output/RGHS/")
-    
+
     height = len(img)
-        
+
     width = len(img[0])
 
     sceneRadiance = img
 
     sceneRadiance = RGB_equalisation_RGHS(img)
-    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS_RGB.jpg',sceneRadiance)
-    
+    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS_RGB.jpg', sceneRadiance)
+
     # sceneRadiance1 = RelativeGHstretching(sceneRadiance, height, width)
     # cv2.imwrite(folder+'/Output/RGHS/'+'RGHS_GH.jpg',sceneRadiance1)
 
     sceneRadiance = stretching(sceneRadiance)
-    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS_stretch.jpg',sceneRadiance)
+    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS_stretch.jpg', sceneRadiance)
 
     sceneRadiance = LABStretching(sceneRadiance)
 
-    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS.jpg',sceneRadiance)
+    cv2.imwrite(folder+'/Output/RGHS/'+'RGHS.jpg', sceneRadiance)
+
+
+def get_image_ulap(request):
+    if not os.path.exists("UWIE/static/Input/ULAP/"):
+        os.makedirs("UWIE/static/Input/ULAP/")
+
+    shutil.rmtree("UWIE/static/Input/ULAP/")
+
+    if request.method == "POST":
+        in_img = request.FILES['image']
+        in_img.name = "input.jpg"
+        input = InputULAP(img=in_img)
+        input.save()
+        restoreULAP("UWIE/static")
+        img1 = "static/Input/ULAP/input.jpg"
+        img2 = "ULAP.jpg"
+    return render(request, 'ulap.html', {'img1': img1, 'img2': img2, 'D': "ULAP_DM.jpg", 'T': "ULAP_TM.jpg", 'in': 'none'})
+
+
+def restoreULAP(folder):
+
+    if not os.path.exists(folder+"/Output/ULAP/"):
+        os.makedirs(folder+"/Output/ULAP/")
+
+    img = cv2.imread(folder + '/Input/ULAP/input.jpg')
+
+    blockSize = 9
+    gimfiltR = 50
+    eps = 10 ** -3
+
+    DepthMap = depthMap(img)
+    DepthMap = global_stretching(DepthMap)
+    guided_filter = GuidedFilter(img, gimfiltR, eps)
+    refineDR = guided_filter.filter(DepthMap)
+    refineDR = np.clip(refineDR, 0, 1)
+
+    cv2.imwrite(folder + '/Output/ULAP/'+'ULAP_DM.jpg', np.uint8(refineDR * 255))
+
+    AtomsphericLight = BLEstimation(img, DepthMap) * 255
+
+    d_0 = minDepth(img, AtomsphericLight)
+    d_f = 8 * (DepthMap + d_0)
+    transmissionB, transmissionG, transmissionR = getRGBTransmissionESt(
+        d_f)
+
+    transmission = refinedtransmissionMap(
+        transmissionB, transmissionG, transmissionR, img)
+    sceneRadiance = sceneRadianceRGB(img, transmission, AtomsphericLight)
+
+    cv2.imwrite(folder + '/Output/ULAP/'+'ULAP_TM.jpg',np.uint8(transmission[:, :, 2] * 255))
+
+    # print('AtomsphericLight',AtomsphericLight)
+
+    cv2.imwrite(folder + '/Output/ULAP/'+'ULAP.jpg', sceneRadiance)
+
 
 def classifyimage(request):
     folder = "UWIE/static/Input/CLASSIFY/"
-    
+
     if not os.path.exists(folder):
         os.makedirs(folder)
 
@@ -358,11 +439,11 @@ def classifyimage(request):
         model = 'UWIE/CLASSIFY/models'
         model_path = model+'/model_25.h5'
         model_weights_path = model+'/weights_25.h5'
-        model = load_model(model_path, compile=False)
+        model = load_model(model_path)
         model.load_weights(model_weights_path)
         # BytesIO(response.content))
         test_image = Image.open(folder+"input.jpg")
-        put_image = test_image.resize((400, 400))
+        # put_image = test_image.resize((400, 400))
         test_image = test_image.resize((128, 128))
         test_image = image_utils.img_to_array(test_image)
         test_image = np.expand_dims(test_image, axis=0)
@@ -378,7 +459,9 @@ def classifyimage(request):
             ans = 'P'
         elif np.argmax(rr) == 2:
             ans = "T"
+        else:
+            ans = "None"
         print("prediction", ans)
 
     img1 = "static/Input/CLASSIFY/input.jpg"
-    return render(request, 'classify.html', {'img1':img1,'r': ans})
+    return render(request, 'classify.html', {'img1': img1, 'r': ans})
