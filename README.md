@@ -1,5 +1,13 @@
 # 🆄🅽🅳🅴🆁 🆆🅰🆃🅴🆁 🅸🅼🅰🅶🅴 🅴🅽🅰🅽🅲🅴🅼🅴🅽🆃 🅰🅽🅳🅳 🆁🅴🆂🆃🅾🆁🅰🆃🅸🅾🅽 : 🆁🅴🅴🅵 🅲🅻🅰🆂🆂🅸🅵🅸🅲🅰🆃🅸🅾🅽
 
+The main objective of the Project is to reduce the noises in the Underwater Images.
+We propose some methods for efficient removal of Noises using Image Processing
+Techniques.
+  The Underwater images have low quality which makes it a difficult process to analyze
+the images. Here we propose Image Enhancement and Image Restoration process for
+increasing the quality of Underwater Images. Clahe, Reyleigh distribution, DCP and
+MIP,RGHS,ULAP methods are used in this project.
+
 ### IMAGE ENHANCEMENT
 
 - CLAHE - CONTRAST LIMITED ADAPTIVE HISTOGRAM EQUALIZATION
@@ -18,13 +26,13 @@
 
 - python 3.8.6 64bit
 - install dependencies `$ pip install -r requirements.txt`
-- download models from [here](https://drive.google.com/drive/folders/1df0bN6jUbQLoXuNAqYPLboQz1xITMFwm?usp=sharing "link title"),place it in models folder`/UWIE/CLASSIFY/models/`
+- download models from [here]( "link title"), place it in models folder`/UWIE/CLASSIFY/models/`
 
 ### Dataset
 
--Pocillopora
--Acropora
--Turf
+- Pocillopora
+- Acropora
+- Turf
 
 [Download DataSet from here](http://vision.ucsd.edu/~beijbom/moorea_labeled_corals/patches/)
 
