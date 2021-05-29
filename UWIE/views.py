@@ -220,7 +220,9 @@ def get_image_dcp(request):
         restoreDCP("UWIE/static")
         img1 = "static/Input/DCP/input.jpg"
         img2 = "DCP.jpg"
-    return render(request, 'dcp.html', {'img1': img1, 'img2': img2, 'G': "Gray.jpg",
+        hist_in = "hist_in.jpg"
+        hist_out = "hist_op.jpg"
+    return render(request, 'dcp.html', {'img1': img1, 'img2': img2, 'G': "Gray.jpg",'hist_in': hist_in,'hist_out': hist_out,
                                         'D': "Dark.jpg", 'T': "DCP_TM.jpg", 'TRA': "TRA.jpg", 'in': 'none'})
 
 
@@ -302,7 +304,9 @@ def get_image_mip(request):
         restoreMIP("UWIE/static")
         img1 = "static/Input/MIP/input.jpg"
         img2 = "MIP.jpg"
-    return render(request, 'mip.html', {'img1': img1, 'img2': img2, 'D': "MIP_diff.jpg",
+        hist_in = "hist_in.jpg"
+        hist_out = "hist_op.jpg"
+    return render(request, 'mip.html', {'img1': img1, 'img2': img2, 'D': "MIP_diff.jpg",'hist_in': hist_in,'hist_out': hist_out,
                                         'TR': "MIP_tr.jpg", 'RT': "MIP_rtra.jpg", 'TM': "MIP_TM.jpg", 'in': 'none'})
 
 
@@ -364,7 +368,9 @@ def get_image_rghs(request):
         enhanceRGHS("UWIE/static")
         img1 = "static/Input/RGHS/input.jpg"
         img2 = "RGHS.jpg"
-    return render(request, 'rghs.html', {'img1': img1, 'img2': img2, 'R': "RGHS_RGB.jpg", 'S': "RGHS_stretch.jpg", 'in': 'none'})
+        hist_in = "hist_in.jpg"
+        hist_out = "hist_op.jpg"
+    return render(request, 'rghs.html', {'img1': img1, 'img2': img2, 'R': "RGHS_RGB.jpg", 'S': "RGHS_stretch.jpg", 'in': 'none','hist_in': hist_in,'hist_out': hist_out,})
 
 
 def enhanceRGHS(folder):
@@ -417,7 +423,9 @@ def get_image_ulap(request):
         restoreULAP("UWIE/static")
         img1 = "static/Input/ULAP/input.jpg"
         img2 = "ULAP.jpg"
-    return render(request, 'ulap.html', {'img1': img1, 'img2': img2, 'D': "ULAP_DM.jpg", 'T': "ULAP_TM.jpg", 'in': 'none'})
+        hist_in = "hist_in.jpg"
+        hist_out = "hist_op.jpg"
+    return render(request, 'ulap.html', {'img1': img1, 'img2': img2, 'D': "ULAP_DM.jpg", 'T': "ULAP_TM.jpg", 'in': 'none','hist_in': hist_in,'hist_out': hist_out})
 
 
 def restoreULAP(folder):

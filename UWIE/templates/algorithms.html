@@ -170,8 +170,16 @@
         0 0 40px #03e9f4,
         0 0 80px #03e9f4;
     }
+    #particles-js {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: #1E1F25;
+			z-index: -2;
+		}
   </style>
 </head>
+<div id="particles-js"></div>
 <div class="home">
   <a href="/"><i class="fas fa-home"></i></a>
 </div>
@@ -179,7 +187,6 @@
     ALGORITHMS
   </div>
 <body>
-  
   <div>
     <details>
       <summary>
@@ -347,7 +354,45 @@
         </code></pre>
       </div>
     </details>
+    <details>
+      <summary>
+        RGHS
+      </summary>
+      <div>
+        <pre><code>
+          1.ALGORITHM RGHS
+
+          2.INPUT image file.
+
+          3.SET image as SceneRadiance.
+
+          4.CALCULATE STRETCHING on SceneRadiance
+              a.GET image HEIGHT
+              b.GET image WIDTH
+              c.GET MAX_CHANNEL and MIN_CHANNEL
+              d.PERFORM STRETCHING
+                  d1.img[i,j,k] = (img[i,j,k] - MIN_CHANNEL) * (255 - 0) / (MAX_CHANNEL - MIN_CHANNEL)+ 0
+              e.RETURN image
+
+          5.CALCULATE LABSTRETCHING on SceneRadiance
+              a.GET image HEIGHT
+              b.GET image WIDTH
+              c.CONVERT RGB image TO CIELAB(L*a*b) COLOR SPACE
+              d.SPLIT image TO "l", "a", "b" CHANNEL.
+                  d1.PERFORM STRETCHING ON "l"
+                  d2.PERFORM STRETCHING ON "a"
+                  d3.PERFORM STRETCHING ON "b"
+              e.CONVERT image BACK TO RGB COLOR SPACE
+              f.RETURN image
+
+          6.RETURN  SceneRadiance AS FINAL OUTPUT.
+        </code>
+      </pre>
+      </div>
+    </details>
   </div>
 </body>
-
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> <!-- stats.js lib -->
+<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<script src="static/particle.js"></script>
 </html>

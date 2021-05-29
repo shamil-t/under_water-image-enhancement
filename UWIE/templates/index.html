@@ -15,6 +15,22 @@
 			list-style-type: none;
 		}
 
+		canvas {
+			display: block;
+		}
+
+		#particles-js {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: #1E1F25;
+			z-index: -2;
+		}
+
+		.cont{
+			position: absolute;
+		}
+
 		body {
 			background: #1E1F25;
 		}
@@ -46,9 +62,9 @@
 			font-weight: bold;
 			border-radius: 15px;
 			box-shadow: 0 0 3px #03e9f4,
-        0 0 10px #03e900,
-        0 0 10px #03e9f4,
-        0 0 10px #03e9f4;
+				0 0 10px #03e900,
+				0 0 10px #03e9f4,
+				0 0 10px #03e9f4;
 		}
 
 		.nav li:active {
@@ -133,75 +149,63 @@
 			font-weight: bold;
 			border-radius: 10px;
 			box-shadow: 0 0 3px #03e9f4,
-        0 0 10px #03e900,
-        0 0 10px #03e9f4,
-        0 0 10px #03e9f4;
+				0 0 10px #03e900,
+				0 0 10px #03e9f4,
+				0 0 10px #03e9f4;
 		}
 	</style>
 </head>
 
 
 <body>
-	<div class="nav">
-		<ul>
-			<li><a href="#">HOME</a></li>
-			<li><a href="algorithms">ALGORITHMS</a></li>
-			<li><a href="paper">PAPER</a></li>
-			<li><a href="about-us">ABOUT US</a></li>
-		</ul>
-	</div>
+	<div id="particles-js"></div>
+	<div class="cont">
+		<div class="nav">
+			<ul>
+				<li><a href="#">HOME</a></li>
+				<li><a href="algorithms">ALGORITHMS</a></li>
+				<li><a href="paper">PAPER</a></li>
+				<li><a href="about-us">ABOUT US</a></li>
+			</ul>
+		</div>
 
-	<div id="head1">
-		UNDER WATER IMAGE ENHANCEMENT AND RESTORATION : WITH REEF CLASSIFICATION
-	</div>
-	<div id="methods">
-		<div id="enhance">
-			Enhancement Methods :
-			<div class="item-list">
-				<ul>
-					<li><a href="clahe">1. CLAHE</a></li>
-					<li><a href="rayleigh">2. Rayleigh</a></li>
-					<li><a href="rghs">3. RGHS</a></li>
-				</ul>
-			</div>
+		<div id="head1">
+			UNDER WATER IMAGE ENHANCEMENT AND RESTORATION : WITH REEF CLASSIFICATION
 		</div>
-		<div id="restore">
-			Restoration Methods :
-			<div class="item-list">
-				<ul>
-					<li><a href="dcp">1. DCP</a></li>
-					<li><a href="mip">2. MIP</a></li>
-					<li><a href="ulap">3. ULAP</a></li>
-				</ul>
+		<div id="methods">
+			<div id="enhance">
+				Enhancement Methods :
+				<div class="item-list">
+					<ul>
+						<li><a href="clahe">1. CLAHE</a></li>
+						<li><a href="rayleigh">2. Rayleigh</a></li>
+						<li><a href="rghs">3. RGHS</a></li>
+					</ul>
+				</div>
 			</div>
-		</div>
-		<div id="classify">
-			Reef Classification :
-			<div class="item-list">
-				<ul>
-					<li><a href="classify">CLASSIFY</a></li>
-				</ul>
+			<div id="restore">
+				Restoration Methods :
+				<div class="item-list">
+					<ul>
+						<li><a href="dcp">1. DCP</a></li>
+						<li><a href="mip">2. MIP</a></li>
+						<li><a href="ulap">3. ULAP</a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="classify">
+				Reef Classification :
+				<div class="item-list">
+					<ul>
+						<li><a href="classify">CLASSIFY</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
 </body>
-<script>
-	function playV() {
-		document.getElementById('video').style.visibility = "visible"
-		document.getElementById('video').style.position = 'fixed'
-		document.querySelector('video').play()
-	}
-
-	jQuery(document).ready(function ($) {
-		$(window).on('load', function () {
-			setTimeout(function () {
-				$('#preloader').fadeOut('slow', function () {});
-			}, 2000);
-
-		});
-	});
-	console.log("her i am ")
-	setTimeout(playV(), 50000);
-</script>
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> <!-- stats.js lib -->
+<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<script src="static/particle.js"></script>
 
 </html>

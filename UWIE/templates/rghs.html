@@ -257,6 +257,18 @@
 			letter-spacing: 1px;
 			margin-top: 5px;
 		}
+		.histogram,
+    .output_image {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .histogram img{
+      width: 450px;
+      height: 400px;
+    }
 	</style>
 </head>
 <div id="load" class="load">
@@ -318,6 +330,19 @@
 				</figure class="item">
 			</div>
 		</div>
+		<div class="histograms">
+      <h2>HISTOGRAMS</h2>
+      <div class="histogram">
+        <figure class="item">
+          <img id="hist_in" alt="histogram of input image">
+          <figcaption class="fig_t">HISTOGRAM OF INPUT IMAGE</figcaption>
+        </figure>
+        <figure class="item">
+          <img id="hist_out" alt="histogram of output image">
+          <figcaption class="fig_t">HISTOGRAM OF RAYLEIGH APPLIED IMAGE</figcaption>
+        </figure>
+      </div>
+    </div>
 	</div>
 </body>
 <script>
@@ -361,6 +386,11 @@
 
 		R.src = 'static/Output/RGHS/{{ R }}'
 		S.src = 'static/Output/RGHS/{{ S }}'
+
+		var h1 = document.getElementById('hist_in');
+    var h2 = document.getElementById('hist_out');
+    h1.src = 'static/Output/RGHS/{{ hist_in }}'
+    h2.src = 'static/Output/RGHS/{{ hist_out }}'
 		
 	}
 </script>
