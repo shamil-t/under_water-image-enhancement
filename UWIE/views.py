@@ -29,7 +29,7 @@ from .ULAP.getRGBTransmission import getRGBTransmissionESt
 from .ULAP.global_Stretching import global_stretching
 from .ULAP.refinedTransmissionMap import refinedtransmissionMap
 
-from .ULAP.sceneRadiance import sceneRadianceRGB
+from .ULAP.sceneRadiance import sceneRadianceRGBULAP
 
 from matplotlib import pyplot as plt
 from django.shortcuts import render
@@ -129,19 +129,15 @@ def enhanceImageCLAHE(folder):
 
         output_img = cv2.imread(folder + '/Output/CLAHE/CLAHE.jpg', 0)
 
-        hist_ip = cv2.calcHist([input_img], [0], None, [256], [0, 256])
         inp = plt.figure()
-        plt.plot(hist_ip)
+        plt.hist(input_img.flatten(), 256, [0, 256])
         inp.savefig(folder+'/Output/CLAHE/hist_in.jpg')
         plt.close(inp)
-        hist_op = cv2.calcHist([output_img], [0], None, [256], [0, 256])
+
         op = plt.figure()
-        plt.plot(hist_op)
+        plt.hist(output_img.flatten(), 256, [0, 256])
         op.savefig(folder+'/Output/CLAHE/hist_op.jpg')
         plt.close(op)
-
-        # plt.hist(input_img.ravel(),256,[0,256]);
-        # plt.hist(output_img.ravel(),256,[0,256]);
 
 
 def get_image_ray(request):
@@ -163,8 +159,10 @@ def get_image_ray(request):
         stretch = "RAY_stretch.jpg"
         R_stretch = "RAY_Rstretch.jpg"
         HSV_str = "RAY_HSV.jpg"
+        hist_in = "hist_in.jpg"
+        hist_out = "hist_op.jpg"
     return render(request, 'rayleigh.html', {'img1': img1, 'img2': img2, 'RGB': RGB_equ,
-                                             'STR': stretch, 'Rstr': R_stretch, 'HSV': HSV_str, 'in': "none"})
+                                             'hist_in': hist_in,'hist_out': hist_out,'STR': stretch, 'Rstr': R_stretch, 'HSV': HSV_str, 'in': "none"})
 
 
 def enhanceImageRAY(folder):
@@ -194,6 +192,16 @@ def enhanceImageRAY(folder):
 
     sceneRadiance = sceneRadianceRGB(sceneRadiance)
     cv2.imwrite(folder + '/Output/RAY/' + 'RAY.jpg', sceneRadiance)
+
+    inp = plt.figure()
+    plt.hist(img.flatten(), 256, [0, 256])
+    inp.savefig(folder+'/Output/RAY/hist_in.jpg')
+    plt.close(inp)
+
+    op = plt.figure()
+    plt.hist(sceneRadiance.flatten(), 256, [0, 256])
+    op.savefig(folder+'/Output/RAY/hist_op.jpg')
+    plt.close(op)
 
 
 def get_image_dcp(request):
@@ -269,6 +277,16 @@ def restoreDCP(folder):
                 np.uint8(transmission * 255))
     cv2.imwrite(folder + '/Output/DCP/' + 'DCP.jpg', sceneRadiance)
 
+    inp = plt.figure()
+    plt.hist(img.flatten(), 256, [0, 256])
+    inp.savefig(folder+'/Output/DCP/hist_in.jpg')
+    plt.close(inp)
+
+    op = plt.figure()
+    plt.hist(sceneRadiance.flatten(), 256, [0, 256])
+    op.savefig(folder+'/Output/DCP/hist_op.jpg')
+    plt.close(op)
+
 
 def get_image_mip(request):
     if not os.path.exists("UWIE/static/Input/MIP/"):
@@ -321,6 +339,16 @@ def restoreMIP(folder):
     cv2.imwrite(folder + '/Output/MIP/' + 'MIP_rtra.jpg', np.uint8(Rtr * 255))
     cv2.imwrite(folder + '/Output/MIP/' + 'MIP.jpg', sceneRadiance)
 
+    inp = plt.figure()
+    plt.hist(img.flatten(), 256, [0, 256])
+    inp.savefig(folder+'/Output/MIP/hist_in.jpg')
+    plt.close(inp)
+
+    op = plt.figure()
+    plt.hist(sceneRadiance.flatten(), 256, [0, 256])
+    op.savefig(folder+'/Output/MIP/hist_op.jpg')
+    plt.close(op)
+
 
 def get_image_rghs(request):
     if not os.path.exists("UWIE/static/Input/RGHS/"):
@@ -364,6 +392,16 @@ def enhanceRGHS(folder):
 
     cv2.imwrite(folder+'/Output/RGHS/'+'RGHS.jpg', sceneRadiance)
 
+    inp = plt.figure()
+    plt.hist(img.flatten(), 256, [0, 256])
+    inp.savefig(folder+'/Output/RGHS/hist_in.jpg')
+    plt.close(inp)
+
+    op = plt.figure()
+    plt.hist(sceneRadiance.flatten(), 256, [0, 256])
+    op.savefig(folder+'/Output/RGHS/hist_op.jpg')
+    plt.close(op)
+
 
 def get_image_ulap(request):
     if not os.path.exists("UWIE/static/Input/ULAP/"):
@@ -399,7 +437,8 @@ def restoreULAP(folder):
     refineDR = guided_filter.filter(DepthMap)
     refineDR = np.clip(refineDR, 0, 1)
 
-    cv2.imwrite(folder + '/Output/ULAP/'+'ULAP_DM.jpg', np.uint8(refineDR * 255))
+    cv2.imwrite(folder + '/Output/ULAP/' +
+                'ULAP_DM.jpg', np.uint8(refineDR * 255))
 
     AtomsphericLight = BLEstimation(img, DepthMap) * 255
 
@@ -410,13 +449,24 @@ def restoreULAP(folder):
 
     transmission = refinedtransmissionMap(
         transmissionB, transmissionG, transmissionR, img)
-    sceneRadiance = sceneRadianceRGB(img, transmission, AtomsphericLight)
+    sceneRadiance = sceneRadianceRGBULAP(img, transmission, AtomsphericLight)
 
-    cv2.imwrite(folder + '/Output/ULAP/'+'ULAP_TM.jpg',np.uint8(transmission[:, :, 2] * 255))
+    cv2.imwrite(folder + '/Output/ULAP/'+'ULAP_TM.jpg',
+                np.uint8(transmission[:, :, 2] * 255))
 
     # print('AtomsphericLight',AtomsphericLight)
 
     cv2.imwrite(folder + '/Output/ULAP/'+'ULAP.jpg', sceneRadiance)
+
+    inp = plt.figure()
+    plt.hist(img.flatten(), 256, [0, 256])
+    inp.savefig(folder+'/Output/ULAP/hist_in.jpg')
+    plt.close(inp)
+
+    op = plt.figure()
+    plt.hist(sceneRadiance.flatten(), 256, [0, 256])
+    op.savefig(folder+'/Output/ULAP/hist_op.jpg')
+    plt.close(op)
 
 
 def classifyimage(request):

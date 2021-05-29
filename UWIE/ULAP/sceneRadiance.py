@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def sceneRadianceRGB(img, transmission, AtomsphericLight):
+def sceneRadianceRGBULAP(img, transmission, AtomsphericLight):
     sceneRadiance = np.zeros(img.shape)
     img = np.float16(img)
     for i in range(0, 3):
