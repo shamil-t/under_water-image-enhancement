@@ -52,6 +52,7 @@
       border: 2px solid #fff;
       padding-left: 15px;
       padding-right: 15px;
+      position: relative;
     }
 
     .head1 {
@@ -271,6 +272,17 @@
     #turf {
       display: none;
     }
+
+    .percentage{
+      bottom: 10px;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: "Poppins",sans-serif;
+      display: none;
+    }
   </style>
 </head>
 <div id="load" class="load">
@@ -336,8 +348,6 @@
           </div>
           Acropora is a genus of small polyp stony coral in the phylum Cnidaria.
            Some of its species are known as table coral, elkhorn coral, and staghorn coral. 
-           Over 149 species are described. Acropora species are some of the major reef corals responsible for building 
-           the immense calcium carbonate substructure that supports the thin living skin of a reef.
           <div class="sci">
             <h3>SCIENTIFIC INFORMATION</h3>
             <ul>
@@ -372,6 +382,9 @@
             </ul>
           </div>
         </div>
+        <div id="perc" class="percentage">
+          Prediction Percentage : {{ p }}%
+        </div>
       </div>
     </div>
   </div>
@@ -391,6 +404,7 @@
     setTimeout(function () {
         document.getElementById('load').style.display='none';
     }, 5000);
+
     reader.readAsDataURL(event.target.files[0]);
     document.getElementById('submit').click()
   }
@@ -403,12 +417,15 @@
     if ( r == "P") {
       console.log("in if",r);
       document.getElementById('pocill').style.display = 'block'
+      document.getElementById('perc').style.display = "block"
     }
     else if(r == "A"){
       document.getElementById('acro').style.display = 'block'
+      document.getElementById('perc').style.display = "block"
     }
     else if(r == "T"){
       document.getElementById('turf').style.display = 'block'
+      document.getElementById('perc').style.display = "block"
     }
   }
 </script>

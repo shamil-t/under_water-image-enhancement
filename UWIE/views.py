@@ -121,23 +121,23 @@ def enhanceImageCLAHE(folder):
 
     if not os.path.exists(folder + '/Output/CLAHE/'):
         os.makedirs(folder + '/Output/CLAHE/')
-    else:
-        cv2.imwrite(folder + '/Output/CLAHE/' + 'CLAHE.jpg', sceneRadiance)
+    
+    cv2.imwrite(folder + '/Output/CLAHE/' + 'CLAHE.jpg', sceneRadiance)
 
-        # HISTOGRAM
-        input_img = cv2.imread(folder + '/Input/CLAHE/input.jpg', 0)
+    # HISTOGRAM
+    input_img = cv2.imread(folder + '/Input/CLAHE/input.jpg', 0)
 
-        output_img = cv2.imread(folder + '/Output/CLAHE/CLAHE.jpg', 0)
+    output_img = cv2.imread(folder + '/Output/CLAHE/CLAHE.jpg', 0)
 
-        inp = plt.figure()
-        plt.hist(input_img.flatten(), 256, [0, 256])
-        inp.savefig(folder+'/Output/CLAHE/hist_in.jpg')
-        plt.close(inp)
+    inp = plt.figure()
+    plt.hist(input_img.flatten(), 256, [0, 256])
+    inp.savefig(folder+'/Output/CLAHE/hist_in.jpg')
+    plt.close(inp)
 
-        op = plt.figure()
-        plt.hist(output_img.flatten(), 256, [0, 256])
-        op.savefig(folder+'/Output/CLAHE/hist_op.jpg')
-        plt.close(op)
+    op = plt.figure()
+    plt.hist(output_img.flatten(), 256, [0, 256])
+    op.savefig(folder+'/Output/CLAHE/hist_op.jpg')
+    plt.close(op)
 
 
 def get_image_ray(request):
@@ -521,5 +521,9 @@ def classifyimage(request):
             ans = "None"
         print("prediction", ans)
 
+        max = rr[np.argmax(rr)]
+        print(float(max)*100)
+        percentage = "{:.2f}".format(float(max)*100)
+
     img1 = "static/Input/CLASSIFY/input.jpg"
-    return render(request, 'classify.html', {'img1': img1, 'r': ans})
+    return render(request, 'classify.html', {'img1': img1, 'r': ans,'p':percentage})
