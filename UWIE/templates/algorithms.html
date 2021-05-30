@@ -97,7 +97,7 @@
     }
 
     details[open] summary {
-      background-color: #03e9f4;
+      background-color: #bbe7e9;
     }
 
     details[open] summary:before {
@@ -386,6 +386,47 @@
               f.RETURN image
 
           6.RETURN  SceneRadiance AS FINAL OUTPUT.
+        </code>
+      </pre>
+      </div>
+    </details>
+    <details>
+      <summary>
+        ULAP
+      </summary>
+      <div>
+        <pre><code>
+          1.ALGORITHM ULAP.
+
+          2.INPUT image file.
+
+          3.CALCULATE DepthMap FOR image.
+              a.DepthMap = 0.51157954 + 0.50516165 *(MAX(img[:, :, 0], img[:, :, 1])) + (-0.90511117) *(img[:, :, 2])
+              b.RETURN DepthMap.
+
+          4.PERFORM GlobalStretching on DepthMap
+          5.CALCULATE AtomsphericLight
+              a.PERFORM BackLightEstimation using image and DepthMap.
+              a.AtomsphericLight = BackLightEstimation * 255
+
+          6.GET MIN_DEPTH FROM input_image and AtomsphericLight
+
+          7.ESTIMATE TRANSMISSION FOR R, G, B CHANNEL INDIVIDUALY.
+              a.transmission_B = 0.97 ** ( 8 * (DepthMap + MIN_DEPTH(img, AtomsphericLight)))
+              b.transmission_G = 0.95 ** ( 8 * (DepthMap + MIN_DEPTH(img, AtomsphericLight)))
+              c.transmission_R = 0.83 ** ( 8 * (DepthMap + MIN_DEPTH(img, AtomsphericLight)))
+
+          8.GET REFINED transmission.
+              a.FILTER transmission_R, transmission_G, transmission_B WITH GUIDED FILTER
+              b.RETURN REFINED transmission
+
+          9.CALCULATE SceneRadiance
+              a.SceneRadiance = (img - AtomsphericLight) / transmission[:, :, i]  + AtomsphericLight
+              b.Limit the transmittance between 0～255
+              c.RETURN SceneRadiance
+            
+          10.RETURN SceneRadiance AS FINAL OUTPUT.
+
         </code>
       </pre>
       </div>
